@@ -12,11 +12,11 @@ class World():
         boxes = []
         ents = []
         for k in self.entities:
-            box.append(k.rect)
+            boxes.append(k.rect)
             ents.append(k)
         ents = np.array(ents)
         for k in self.entities:
-            
+
             k.update(keystate,mousePos,mousePressed, ents[k.rect.collidelistall(boxes)] )
             for entity in k.get_new_entities():
                 self.entities.append(entity)

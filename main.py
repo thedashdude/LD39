@@ -21,7 +21,16 @@ def main(winstyle = 0):
     screen = pygame.display.set_mode(SCREENRECT.size, winstyle, bestdepth)
     clock = pygame.time.Clock()
     pygame.display.flip()
-    wrld = world.World([],screen)
+    lst = []
+    lst.append(Entities.Test())
+    lst.append(Entities.Test(100,100))
+    lst.append(Entities.Test(200,100))
+    lst.append(Entities.Test(200,400))
+
+
+    wrld = world.World(lst,screen)
+
+
     display = pygame.display
 
 
@@ -31,6 +40,7 @@ def main(winstyle = 0):
         keystate = pygame.key.get_pressed()
         mousePos = pygame.mouse.get_pos()
         mousePressed = pygame.mouse.get_pressed()
+        pygame.draw.rect(screen, (0,0,0), SCREENRECT)
         
 
         wrld.update(keystate,mousePos,mousePressed)
@@ -38,6 +48,7 @@ def main(winstyle = 0):
 
 
         pygame.display.flip()
+        clock.tick(120)
         
     pygame.time.wait(1000)
     pygame.quit()
