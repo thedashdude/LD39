@@ -12,10 +12,10 @@ class World():
             k.draw(self.screen)
 
     def update(self,keystate,mousePos,mousePressed):
-        self.calculate_collisions()
-        for index, entity in enumerate(self.entities):
+        #self.calculate_collisions()
 
-            entity.update(keystate,mousePos,mousePressed, self.collisions_array[index] )
+        for index, entity in enumerate(self.entities):
+            entity.update(keystate,mousePos,mousePressed, self.entities )
 
             for new_entity in entity.get_new_entities():
                 self.entities.append(new_entity)

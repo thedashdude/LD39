@@ -1,17 +1,66 @@
 #import basic pygame modules
+import numpy as np
 import pygame
 from pygame.locals import *
 
 class Entity():
     def __init__(self, x=0, y=0, width = 32, height = 32, texture_loc = "textures/test.jpg"):
         self.rect = Rect(x,y,width,height)
+        self.speed_x = 0
+        self.speed_y = 0
 
         self.new_entities = list()
 
         self.texture = pygame.image.load(texture_loc)
 
-    def update(self, keystate, mouse_position, mouse_press, collided_entites):
+    def update(self, keystate, mouse_position, mouse_press, entites):
         pass
+    def move(self,entites):
+        #collided_entites.append( Rect(-100,-100,10,10) )
+
+        
+
+        self.rect.move_ip(self.speed_x, 0)
+        boxes = []
+        ents = []
+        for k in entites:
+            if self.rect.colliderect(k.rect) and k != self:
+            	boxes.append(k.rect)
+            	ents.append(k)
+
+        
+
+        rcti = self.rect.collidelist(boxes)
+        if rcti != -1:
+            rct = boxes[rcti]
+            if self.speed_x > 0:
+                self.speed_x = 0
+                lft = rct.left
+                self.rect.right = lft
+            else:
+                self.speed_x = 0
+                rgt = rct.right
+                self.rect.left = rgt
+        
+        self.rect.move_ip(0, self.speed_y)
+        boxes = []
+        ents = []
+        for k in entites:
+            if self.rect.colliderect(k.rect) and k != self:
+            	boxes.append(k.rect)
+            	ents.append(k)
+
+        rcti = self.rect.collidelist(boxes)
+        if rcti != -1:
+            rct = boxes[rcti]
+            if self.speed_y > 0:
+                self.speed_y = 0
+                top = rct.top
+                self.rect.bottom = top
+            else:
+                self.speed_y = 0
+                bot = rct.bottom
+                self.rect.top = bot
 
     def prevent_intersection(self, entity):
         pass
@@ -31,7 +80,7 @@ class Test(Entity):
         super().__init__(x,y)
 
 
-    def update(self, keystate, mouse_position, mouse_press, collided_entites):
+    def update(self, keystate, mouse_position, mouse_press, entites):
         pass
     # def draw(self, screen):
     #   pygame.draw.rect(screen, (200,200,200), self.rect)
@@ -41,21 +90,9 @@ class Test(Entity):
 class Player(Entity):
     def __init__(self, x=0, y=0):
         super().__init__(x,y)
+        self.speed = 2
 
-    def update(self, keystate, mouse_position, mouse_press, collided_entites):
-        if keystate[K_UP]:
-            self.rect.top = self.rect.top - 2
-
-        if keystate[K_DOWN]:
-            self.rect.top = self.rect.top  + 2
-
-        if keystate[K_LEFT]:
-            self.rect.left = self.rect.left - 2
-
-        if keystate[K_RIGHT]:
-            self.rect.left = self.rect.left  + 2
-
-        for entity in collided_entites:
-            print("collided")
-            self.prevent_intersection(entity)
-        print("loop")
+    def update(self, keystate, mouse_position, mouse_press, entites):
+        self.speed_x = (keystate[K_RIGHT] - keystate[K_LEFT]) * self.speed
+        self.speed_y = (keystate[K_DOWN] - keystate[K_UP]) * self.speed
+        self.move(entites)
