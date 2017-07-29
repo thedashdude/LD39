@@ -88,11 +88,18 @@ class Test(Entity):
 
 
 class Player(Entity):
-    def __init__(self, x=0, y=0):
-        super().__init__(x,y)
+    def __init__(self, x=0, y=0,w=32,h=32):
+        super().__init__(x,y,w,h)
         self.speed = 2
+        self.energy = 5000
 
     def update(self, keystate, mouse_position, mouse_press, entites):
         self.speed_x = (keystate[K_RIGHT] - keystate[K_LEFT]) * self.speed
         self.speed_y = (keystate[K_DOWN] - keystate[K_UP]) * self.speed
+        self.energy -= np.abs(self.speed_x)
+        self.energy -= np.abs(self.speed_y)
         self.move(entites)
+    def draw(self, screen):
+        scaled_texture = pygame.transform.scale(self.texture, (self.rect.width, self.rect.height))
+        screen.blit(scaled_texture, self.rect)
+        pygame.draw.rect(screen, (20,200,20), Rect(self.rect.left,self.rect.top-4,self.energy/100,4))
