@@ -30,8 +30,7 @@ def string_array_to_entity_array(str_arr, size=32):
 	Key Code:
 	P = Player
 	B = Blank
-	- = Horizontal wall
-	| = Vertical wall
+	W = Wall
 	E = Enemy
 
 	"""
@@ -41,9 +40,7 @@ def string_array_to_entity_array(str_arr, size=32):
 			a = str_arr[i][j]
 			if a == "P":
 				ent_arr.append(Player(x=i*size, y=j*size))
-			elif a == "-":
-				ent_arr.append(Wall(x=i*size, y=j*size))
-			elif a == "|":
+			elif a == "W":
 				ent_arr.append(Wall(x=i*size, y=j*size))
 			elif a != "B":
 				ent_arr.append(Entity(x=i*size, y=j*size))
