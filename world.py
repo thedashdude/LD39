@@ -1,8 +1,9 @@
 import numpy as np
 
 class World():
-    def __init__(self,EntityList,screen):
+    def __init__(self,EntityList, tb, screen):
         self.entities = EntityList
+        self.text = tb
         self.screen = screen
         self.paused = False
         self.collisions_array = list()
@@ -19,6 +20,8 @@ class World():
 
                 for new_entity in entity.get_new_entities():
                     self.entities.append(new_entity)
+        else:
+            self.text.update(mousePressed)
 
     def cont(self):
         return True

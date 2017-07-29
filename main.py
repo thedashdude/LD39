@@ -5,6 +5,9 @@ import Entities
 from pygame.locals import *
 
 SCREENRECT = Rect(0, 0, 640, 480)
+FRAME_RATE = 120
+
+pygame.init()
 
 def test_quit():
     for event in pygame.event.get():
@@ -24,12 +27,16 @@ def main(winstyle = 0):
     lst = []
     lst.append(Entities.Wall())
     lst.append(Entities.Player(60.0,60.0,16,16))
+
     lst.append(Entities.Wall(100,100))
     lst.append(Entities.Wall(200,100))
     lst.append(Entities.Wall(200,400))
+    s=""
+    for i in range(0, 100):
+        s += str(i)
+    tb = Entities.TextBox(s)
 
-
-    wrld = world.World(lst,screen)
+    wrld = world.World(lst,tb, screen)
 
 
     display = pygame.display
@@ -49,7 +56,7 @@ def main(winstyle = 0):
 
 
         pygame.display.flip()
-        clock.tick(120)
+        clock.tick(FRAME_RATE)
         
     pygame.time.wait(1000)
     pygame.quit()
