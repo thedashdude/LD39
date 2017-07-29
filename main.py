@@ -5,6 +5,7 @@ import Entities
 from pygame.locals import *
 
 SCREENRECT = Rect(0, 0, 640, 480)
+FRAME_RATE = 120
 
 pygame.init()
 
@@ -55,7 +56,7 @@ def main(winstyle = 0):
 
 
         pygame.display.flip()
-        clock.tick(120)
+        clock.tick(FRAME_RATE)
         
     pygame.time.wait(1000)
     pygame.quit()
