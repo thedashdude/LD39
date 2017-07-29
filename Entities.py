@@ -3,17 +3,10 @@ import pygame
 from pygame.locals import *
 
 class Entity():
-	def __init__(self,current_world, x=0, y=0, length = 32, width = 32):
-		self.x = 0
-		self.y = 0
-		self.current_world = current_world
-		self.rect = Rect(self.x,self.y,length,width)
+	def __init__(self, x=0, y=0, length = 32, width = 32):
+		self.rect = Rect(x,y,length,width)
 
 		self.new_entities = None
-
-	def move(self,x,y):
-		self.x += x
-		self.y += y
 		
 
 	def update(self, keystate, mouse_position, mouse_press, collided_entites):
@@ -29,4 +22,3 @@ class Entity():
 
 	def draw(self, screen):
 		pass
-

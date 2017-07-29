@@ -1,6 +1,7 @@
 import random, os.path
 import pygame
 import world
+import Entities
 from pygame.locals import *
 
 SCREENRECT = Rect(0, 0, 640, 480)
@@ -26,6 +27,7 @@ def main(winstyle = 0):
 
     while wrld.cont():
         if test_quit(): return
+
         keystate = pygame.key.get_pressed()
         mousePos = pygame.mouse.get_pos()
         mousePressed = pygame.mouse.get_pressed()
