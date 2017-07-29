@@ -1,4 +1,3 @@
-#import basic pygame modules
 import numpy as np
 import pygame
 from pygame.locals import *
@@ -104,6 +103,7 @@ class Player(Entity):
         screen.blit(scaled_texture, self.rect)
         pygame.draw.rect(screen, (20,200,20), Rect(self.rect.left,self.rect.top-4,self.energy/100,4))
 
+
 class Wall_Manager():
     def __init__(self):
         self.walls = list()
@@ -123,3 +123,23 @@ class Wall(Entity):
         wall.orientation = None
 
     def update(self, keystate, mouse_position, mouse_press, entites):
+        pass
+
+class TextBox():
+    def __init__(self, dia):
+        self.dialogue = dia
+        self.was_pressed = False
+
+    def update(self, mouse_press):
+        if mouse_press[0] and not self.was_pressed:
+            self.dialogue = self.dialogue[50:]
+            self.was_pressed = True
+        elif not mouse_press[0]:
+            self.was_pressed = False
+
+
+    def draw(self, screen):
+        myfont = pygame.font.SysFont("Arial", 25)
+        label = myfont.render(self.dialogue[:50], 1, (255,255,0))
+        screen.blit(label, (20, 350))        
+
