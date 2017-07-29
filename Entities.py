@@ -49,6 +49,7 @@ class Entity():
     def update(self, keystate, mouse_position, mouse_press, entites):
         pass
     def to_rads(self,theta):
+        #theta: in degrees, return in radians.
         return theta/180.0 * np.pi
     def update(self, keystate, mouse_position, mouse_press, entities):
         pass
@@ -140,6 +141,7 @@ class Player(Entity):
 
         self.move(entities,Wall)
 
+        #shoot if clicked
         if mouse_press[0] and not self.clicked:
             hold = np.array([mouse_position[0]-self.rect.centerx,mouse_position[1]-self.rect.centery])
             #hold.scale_to_length(1000)
@@ -203,11 +205,11 @@ class Bullet(Entity):
     def __init__(self, x,y,goal_position):
         super().__init__(x,y,4,4)
         self.speed = 8.0
-
+        # a float location is needed for good moving along an angle.
         self.actual_fucking_location = [x,y]
-
-        self.iters = 1
+        #the location it is going to
         self.goal_position = goal_position
+        #initial direction, stops going here after a ricochet
         self.direction = pygame.math.Vector2(10,0).angle_to( pygame.math.Vector2(self.goal_position[0]-self.rect.centerx,self.goal_position[1]-self.rect.centery) )
 
         self.timer = 100
@@ -235,7 +237,7 @@ class Bullet(Entity):
 
 
         
-
+        #try to move in a direction, gather boxes it collides with
         self.rect.move_ip(self.speed_x, 0)
         self.actual_fucking_location[0] += self.speed_x
         boxes = []
@@ -246,7 +248,7 @@ class Bullet(Entity):
                 ents.append(k)
 
         
-
+        # if collision then adjust coords and ricochet
         rcti = self.rect.collidelist(boxes)
         if rcti != -1:
             rct = boxes[rcti]
@@ -263,6 +265,8 @@ class Bullet(Entity):
                 self.rect.left = rgt
                 self.actual_fucking_location[0] = self.rect.x
         
+
+        #same as above but in the y direction
         self.rect.move_ip(0, self.speed_y)
         self.actual_fucking_location[1] += self.speed_y
         boxes = []

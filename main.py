@@ -5,7 +5,7 @@ import Entities
 from pygame.locals import *
 
 SCREENRECT = Rect(0, 0, 640, 480)
-FRAME_RATE = 120
+FRAME_RATE = 60
 
 pygame.init()
 
