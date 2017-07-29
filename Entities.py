@@ -103,3 +103,23 @@ class Player(Entity):
         scaled_texture = pygame.transform.scale(self.texture, (self.rect.width, self.rect.height))
         screen.blit(scaled_texture, self.rect)
         pygame.draw.rect(screen, (20,200,20), Rect(self.rect.left,self.rect.top-4,self.energy/100,4))
+
+class Wall_Manager():
+    def __init__(self):
+        self.walls = list()
+
+    def addWall(self, wall):
+        self.orientWall(wall)
+        self.walls.append(wall)
+
+    def orientWall(self, wall):
+        pass
+
+wall_manager = Wall_Manager()        
+
+class Wall(Entity):
+    def __init__(self, x=0, y=0,w=32,h=32):
+        super().__init__(x,y,w,h, texture = )
+        wall.orientation = None
+
+    def update(self, keystate, mouse_position, mouse_press, entites):
