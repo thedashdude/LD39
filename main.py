@@ -88,10 +88,11 @@ class Player(pygame.sprite.Sprite):
         if hit:
             self.speed_y = 0
     def jump(self,solids):
-        hit, rct = solids.collides(self.rect.move(0,1))
+        shoot = pygame.mixer.Sound("Jump.wav")
+        shoot.play(maxtime=100)
+        hit, rct = solids.collides(self.rect.move(0, 1))
         if hit and self.speed_y == 0:
             self.speed_y = self.speed_jump
-
 
 
 
@@ -123,7 +124,7 @@ def main(winstyle = 0):
             player.jump(solids)
 
 
-        
+
         pygame.draw.rect(screen, (0,0,0), SCREENRECT)
         solids.draw(screen)
         pygame.draw.rect(screen, (200,200,0), player.rect)
