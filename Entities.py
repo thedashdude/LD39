@@ -176,7 +176,7 @@ wall_manager = Wall_Manager()
 class Wall(Entity):
     def __init__(self, x=0, y=0,w=32,h=32):
         super().__init__(x,y,w,h)
-        wall.orientation = None
+        self.orientation = None
 
     def update(self, keystate, mouse_position, mouse_press, entites):
         pass
