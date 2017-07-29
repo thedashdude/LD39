@@ -38,8 +38,17 @@ def string_array_to_entity_array(str_arr, size=32):
 	ent_arr = []
 	for i in range(len(str_arr)):
 		for j in range(len(str_arr[i])):
-			if str_arr[i][j] != "B":
+			a = str_arr[i][j]
+			if a == "P":
+				ent_arr.append(Player(x=i*size, y=j*size))
+			elif a == "-":
+				ent_arr.append(Wall(x=i*size, y=j*size))
+			elif a == "|":
+				ent_arr.append(Wall(x=i*size, y=j*size))
+			elif a != "B":
 				ent_arr.append(Entity(x=i*size, y=j*size))
+
+
 	return ent_arr
 
 def dialogue_to_text_box(dialogue):
