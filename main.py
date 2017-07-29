@@ -28,9 +28,9 @@ def main(winstyle = 0):
     lst.append(Entities.Wall())
     lst.append(Entities.Player(60.0,60.0,16,16))
 
-    lst.append(Entities.Test(100,100))
-    lst.append(Entities.Test(200,100))
-    lst.append(Entities.Test(200,400))
+    lst.append(Entities.Wall(100,100))
+    lst.append(Entities.Wall(200,100))
+    lst.append(Entities.Wall(200,400))
     s=""
     for i in range(0, 100):
         s += str(i)
