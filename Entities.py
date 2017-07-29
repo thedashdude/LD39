@@ -103,13 +103,12 @@ class Player(Entity):
         screen.blit(scaled_texture, self.rect)
         pygame.draw.rect(screen, (20,200,20), Rect(self.rect.left,self.rect.top-4,self.energy/100,4))
 
-class TextBox(Entity):
-    def __init__(self, dia, x=0, y=0, w=32, h=32):
-        super().__init__(x,y,w,h)
+class TextBox():
+    def __init__(self, dia):
         self.dialogue = dia
         self.was_pressed = False
 
-    def update(self, keystate, mouse_position, mouse_press, entities):
+    def update(self, mouse_press):
         if mouse_press[0] and not self.was_pressed:
             self.dialogue = self.dialogue[50:]
             self.was_pressed = True

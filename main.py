@@ -6,6 +6,8 @@ from pygame.locals import *
 
 SCREENRECT = Rect(0, 0, 640, 480)
 
+pygame.init()
+
 def test_quit():
     for event in pygame.event.get():
             if event.type == QUIT or \
@@ -27,9 +29,13 @@ def main(winstyle = 0):
     lst.append(Entities.Test(100,100))
     lst.append(Entities.Test(200,100))
     lst.append(Entities.Test(200,400))
+    s=""
+    for i in range(0, 100):
+        s += str(i)
+    tb = Entities.TextBox(s)
 
 
-    wrld = world.World(lst,screen)
+    wrld = world.World(lst,tb, screen)
 
 
     display = pygame.display
