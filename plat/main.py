@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import random, os.path
 
 #import basic pygame modules
@@ -95,6 +93,7 @@ class Player(pygame.sprite.Sprite):
         hit, rct = solids.collides(self.rect.move(0, 1))
         if hit and self.speed_y == 0:
             self.speed_y = self.speed_jump
+            
 
 
 
@@ -143,10 +142,3 @@ def main(winstyle = 0):
 
 
 if __name__ == '__main__': main()
-
-
-
-
-
-
->>>>>>> origin/master
