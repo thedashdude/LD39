@@ -25,8 +25,9 @@ def main(winstyle = 0):
     clock = pygame.time.Clock()
     pygame.display.flip()
     lst = []
-    lst.append(Entities.Test())
+    lst.append(Entities.Wall())
     lst.append(Entities.Player(60.0,60.0,16,16))
+
     lst.append(Entities.Test(100,100))
     lst.append(Entities.Test(200,100))
     lst.append(Entities.Test(200,400))
@@ -34,7 +35,6 @@ def main(winstyle = 0):
     for i in range(0, 100):
         s += str(i)
     tb = Entities.TextBox(s)
-
 
     wrld = world.World(lst,tb, screen)
 
