@@ -22,11 +22,11 @@ def main(winstyle = 0):
     clock = pygame.time.Clock()
     pygame.display.flip()
     lst = []
-    lst.append(Entities.Test())
+    lst.append(Entities.Wall())
     lst.append(Entities.Player(60.0,60.0,16,16))
-    lst.append(Entities.Test(100,100))
-    lst.append(Entities.Test(200,100))
-    lst.append(Entities.Test(200,400))
+    lst.append(Entities.Wall(100,100))
+    lst.append(Entities.Wall(200,100))
+    lst.append(Entities.Wall(200,400))
 
 
     wrld = world.World(lst,screen)
