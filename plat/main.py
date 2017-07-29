@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 import random, os.path
 
 #import basic pygame modules
@@ -88,10 +90,11 @@ class Player(pygame.sprite.Sprite):
         if hit:
             self.speed_y = 0
     def jump(self,solids):
-        hit, rct = solids.collides(self.rect.move(0,1))
+        shoot = pygame.mixer.Sound("Jump.wav")
+        shoot.play(maxtime=100)
+        hit, rct = solids.collides(self.rect.move(0, 1))
         if hit and self.speed_y == 0:
             self.speed_y = self.speed_jump
-
 
 
 
@@ -123,15 +126,27 @@ def main(winstyle = 0):
             player.jump(solids)
 
 
-        
+
         pygame.draw.rect(screen, (0,0,0), SCREENRECT)
         solids.draw(screen)
         pygame.draw.rect(screen, (200,200,0), player.rect)
         pygame.display.flip()
-        #print(player.speed_y)
+        print(player.speed_y)
         #cap the framerate
         clock.tick(120)
     pygame.time.wait(1000)
     pygame.quit()
 
+
+
+
+
+
 if __name__ == '__main__': main()
+
+
+
+
+
+
+>>>>>>> origin/master
