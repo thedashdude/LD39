@@ -41,3 +41,18 @@ def string_array_to_entity_array(str_arr, size=32):
 			if str_arr[i][j] != "B":
 				ent_arr.append(Entity(x=i*size, y=j*size))
 	return ent_arr
+
+def dialogue_to_text_box(dialogue):
+	"""
+	This returns a TextBox object which has the specified dialogue in it. 
+
+	Params:
+		dialogue[str]:
+			The dialogue that you want to make into a text box.
+
+	Returns:
+		tb [TextBox]:
+			The text box object with the dialogue in it. 
+
+	"""
+	return TextBox(dialogue)
