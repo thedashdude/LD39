@@ -23,6 +23,7 @@ def main(winstyle = 0):
     pygame.display.flip()
     lst = []
     lst.append(Entities.Test())
+    lst.append(Entities.Player(60,60))
     lst.append(Entities.Test(100,100))
     lst.append(Entities.Test(200,100))
     lst.append(Entities.Test(200,400))
