@@ -283,7 +283,7 @@ class Bullet(Entity):
 
 class Energy(Entity):
     def __init__(self, x,y):
-        super().__init__(x,y,8,8)
+        super().__init__(x,y,8,8,texture_loc= "./textures/Battery")
         self.energyBoost = 2500
     def update(self,_,__,___,entities):
         boxes = []
@@ -302,7 +302,7 @@ class Energy(Entity):
         
 class Enemy(Entity):
     def __init__(self, x,y):
-        super().__init__(x,y,16,16)
+        super().__init__(x,y,32,32,texture_loc= "./textures/Enemy")
     def update(self,_,__,___,entities):
         boxes = []
         ents = []

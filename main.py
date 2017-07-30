@@ -28,11 +28,12 @@ def main(winstyle = 0):
     lst.append(Entities.Wall())
     lst.append(Entities.Player(60.0,60.0,32,32))
 
-    lst.append(Entities.Wall(100,100))
-    lst.append(Entities.Wall(200,100))
-    lst.append(Entities.Wall(200,400))
+    #lst.append(Entities.Wall(100,100))
+    #lst.append(Entities.Wall(200,100))
+    #lst.append(Entities.Wall(200,400))
     lst.append(Entities.Energy(400,400))
-    lst.append(Entities.Wall(300,300))
+    lst.append(Entities.Enemy(300,300))
+    #lst.append(Entities.Wall(300,300))
     s=""
     for i in range(0, 100):
         s += str(i)
