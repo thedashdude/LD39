@@ -157,8 +157,7 @@ class Player(Entity):
 
 class Wall_Manager():
     def __init__(self):
-        self.walls = list()
-        self.current_wall = None
+        self.wall_sections = list() #a list of list(class Wall) it keeps tracks of all of  the groups of walls
 
 
     def extend_wall(self, origin_wall, wall_block, orientation):
