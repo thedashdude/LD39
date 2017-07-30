@@ -293,3 +293,23 @@ class Bullet(Entity):
                 self.actual_fucking_location[1] = self.rect.y
         self.rect.x = int(self.actual_fucking_location[0])
         self.rect.y = int(self.actual_fucking_location[1])
+
+class Energy(Entity):
+    def __init__(self, x,y):
+        super().__init__(x,y,8,8)
+        self.energyBoost = 2500
+    def update(self,_,__,___,entities):
+        boxes = []
+        ents = []
+        for k in entities:
+            if self.rect.colliderect(k.rect) and k != self and type(k) == Player:
+                boxes.append(k.rect)
+                ents.append(k)
+        # if collision then adjust coords and ricochet
+        rcti = self.rect.collidelist(boxes)
+        if rcti != -1:
+            ent = ents[rcti]
+            ent.energy += self.energyBoost
+            del entities[entities.index(self)]
+
+        

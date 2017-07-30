@@ -31,6 +31,8 @@ def main(winstyle = 0):
     lst.append(Entities.Wall(100,100))
     lst.append(Entities.Wall(200,100))
     lst.append(Entities.Wall(200,400))
+    lst.append(Entities.Energy(400,400))
+    lst.append(Entities.Wall(300,300))
     s=""
     for i in range(0, 100):
         s += str(i)
@@ -38,9 +40,7 @@ def main(winstyle = 0):
 
     wrld = world.World(lst,tb, screen)
 
-
     display = pygame.display
-
 
     while wrld.cont():
         if test_quit(): return
@@ -60,10 +60,5 @@ def main(winstyle = 0):
         
     pygame.time.wait(1000)
     pygame.quit()
-
-
-
-
-
 
 if __name__ == '__main__': main()
