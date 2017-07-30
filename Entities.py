@@ -35,24 +35,24 @@ class Entity():
         for entry in os.scandir(path):
             if entry.is_file():
                 textures.append(pygame.image.load(entry.path))
+
+
+
         self.texture_cycle = cycle(textures)
+
+    def get_next_texture(self):
+        return next(self.texture_cycle)
 
     def scale_texture(self, texture):
         return texture
 
-
-    def get_next_texture(self):
-        if next(self.frame_count) % self.fps == 0:
-            self.current_texture = next(self.texture_cycle)
-        return self.current_texture
-
     def update(self, keystate, mouse_position, mouse_press, entites):
         pass
+
     def to_rads(self,theta):
         #theta: in degrees, return in radians.
         return theta/180.0 * np.pi
-    def update(self, keystate, mouse_position, mouse_press, entities):
-        pass
+
     def move(self,entities,Type):
         # entities: list of entities
         # Type: the type to check collisions 
@@ -101,18 +101,15 @@ class Entity():
                 bot = rct.bottom
                 self.rect.top = bot
 
-    def prevent_intersection(self, entity):
-        pass
-
     def get_new_entities(self):
         x = self.new_entities
         self.new_entities = list()
         return x
 
     def draw(self, screen):
-        scaled_texture = self.scale_texture(self.get_next_texture())
-        scaled_texture = pygame.transform.smoothscale(scaled_texture, (self.rect.width, self.rect.height))
+        scaled_texture = pygame.transform.smoothscale(self.get_next_texture(), (self.rect.width, self.rect.height))
         screen.blit(scaled_texture, self.rect)
+
 
 class Test(Entity):
     def __init__(self,x=0,y=0,):
@@ -127,8 +124,8 @@ class Test(Entity):
 
 
 class Player(Entity):
-    def __init__(self, x=0, y=0,w=32,h=32):
-        super().__init__(x,y,w,h, texture_loc= "./textures/Player")
+    def __init__(self, x=0, y=0,width=320,height=320):
+        super().__init__(x=x, y=y, width=width, height=height, texture_loc= "./textures/Player")
         self.speed = 1
         self.energy = 5000
         self.clicked = False
@@ -150,16 +147,7 @@ class Player(Entity):
             self.clicked = True
         elif not mouse_press[0]:
             self.clicked = False
-
-    def scale_texture(self, texture):
-        return pygame.transform.scale2x(texture)
     
-
-    def draw(self, screen):
-
-        scaled_texture = pygame.transform.scale2x(self.get_next_texture())
-        screen.blit(scaled_texture, self.rect)
-        pygame.draw.rect(screen, (20,200,20), Rect(self.rect.left,self.rect.top-4,self.energy/100,4))
 
 
 class Wall_Manager():
@@ -176,8 +164,8 @@ class Wall_Manager():
 wall_manager = Wall_Manager()        
 
 class Wall(Entity):
-    def __init__(self, x=0, y=0,w=32,h=32):
-        super().__init__(x,y,w,h)
+    def __init__(self, x=0, y=0,w=256,h=256, ):
+        super().__init__(x,y,w,h, texture_loc= "./textures/Player")
         self.orientation = None
 
     def update(self, keystate, mouse_position, mouse_press, entites):

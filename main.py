@@ -26,7 +26,7 @@ def main(winstyle = 0):
     pygame.display.flip()
     lst = []
     lst.append(Entities.Wall())
-    lst.append(Entities.Player(60.0,60.0,16,16))
+    lst.append(Entities.Player(60.0,60.0,32,32))
 
     lst.append(Entities.Wall(100,100))
     lst.append(Entities.Wall(200,100))
