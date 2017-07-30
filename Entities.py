@@ -34,7 +34,9 @@ class Entity():
         textures = list()
         for entry in os.scandir(path):
             if entry.is_file():
-                textures.append(pygame.image.load(entry.path))
+                texture = pygame.image.load(entry.path)
+                scaled_texture = pygame.transform.smoothscale(texture, (self.rect.width, self.rect.height))
+                textures.append(scaled_texture)
 
 
 
@@ -107,8 +109,8 @@ class Entity():
         return x
 
     def draw(self, screen):
-        scaled_texture = pygame.transform.smoothscale(self.get_next_texture(), (self.rect.width, self.rect.height))
-        screen.blit(scaled_texture, self.rect)
+        #scaled_texture = pygame.transform.smoothscale(self.get_next_texture(), (self.rect.width, self.rect.height))
+        screen.blit(self.get_next_texture(), self.rect)
 
 
 class Test(Entity):
