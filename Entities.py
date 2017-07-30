@@ -152,18 +152,36 @@ class Player(Entity):
 class Wall_Manager():
     def __init__(self):
         self.walls = list()
+        self.current_wall = None
 
-    def addWall(self, wall):
-        self.orientWall(wall)
-        self.walls.append(wall)
 
-    def orientWall(self, wall):
-        pass
+    def extend_wall(self, origin_wall, wall_block, orientation):
+        """
+            adds wall_block onto the end of origin_wall
 
+            Parameters
+            ----------
+
+            origin_wall:
+                list() type = class Wall
+
+            wall_block:
+                class Wall
+
+            orientation:
+                str() of choice(["up", "down" , "left", "right"])
+
+            Returns
+            -------
+            the extended wall
+
+        """
+
+        
 wall_manager = Wall_Manager()        
 
 class Wall(Entity):
-    def __init__(self, x=0, y=0,w=256,h=256, ):
+    def __init__(self, x=0, y=0,w=256,h=256):
         super().__init__(x,y,w,h, texture_loc= "./textures/Player")
         self.orientation = None
 
