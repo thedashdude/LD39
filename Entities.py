@@ -12,11 +12,13 @@ DEAFAULT_TEXTURE_LOC = "textures/Player"
 class Entity():
     def __init__(self, x=0, y=0, width = 32, height = 32, texture_loc = DEAFAULT_TEXTURE_LOC, fps = 15):
         self.fps = fps
+        self.update_freq = FRAME_RATE // self.fps
+
         self.rect = Rect(x,y,width,height)
         self.speed_x = 0.0
         self.speed_y = 0.0
 
-        self.frame_count = cycle(range(FRAME_RATE * self.fps))
+        self.frame_count = cycle(range(self.update_freq))
 
         self.new_entities = list()
 
@@ -40,7 +42,10 @@ class Entity():
         self.texture_cycle = cycle(textures)
 
     def get_next_texture(self):
-        return next(self.texture_cycle)
+        current_frame = next(self.frame_count)
+        if current_frame == 0:
+            self.current_texture = next(self.texture_cycle)
+        return self.current_texture
 
     def scale_texture(self, texture):
         return texture
@@ -107,6 +112,7 @@ class Entity():
 
     def draw(self, screen):
         #scaled_texture = pygame.transform.smoothscale(self.get_next_texture(), (self.rect.width, self.rect.height))
+
         screen.blit(self.get_next_texture(), self.rect)
 
 
@@ -176,7 +182,15 @@ class Wall_Manager():
             the extended wall
 
         """
-
+        last_block = origin_wall[-1]
+        if orientation == "up":
+            pass
+        elif orientation == "down":
+            pass
+        elif orientation == "left":
+            pass
+        elif orientation == "right":
+            pass
         
 wall_manager = Wall_Manager()        
 
