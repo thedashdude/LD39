@@ -7,10 +7,10 @@ import os
 
 from main import FRAME_RATE
 
-DEAFAULT_TEXTURE = pygame.image.load("textures/test.jpg")
+DEAFAULT_TEXTURE_LOC = "textures/Player"
 
 class Entity():
-    def __init__(self, x=0, y=0, width = 32, height = 32, texture_loc = None, fps = 15):
+    def __init__(self, x=0, y=0, width = 32, height = 32, texture_loc = DEAFAULT_TEXTURE_LOC, fps = 15):
         self.fps = fps
         self.rect = Rect(x,y,width,height)
         self.speed_x = 0.0
@@ -23,10 +23,7 @@ class Entity():
         self.texture_cycle = None
         self.current_texture = None
 
-        if texture_loc == None:
-            self.texture_cycle = cycle([DEAFAULT_TEXTURE])
-        else:
-            self.load_textures(texture_loc)
+        self.load_textures(texture_loc)
 
         self.current_texture = next(self.texture_cycle)
 
