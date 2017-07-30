@@ -300,3 +300,17 @@ class Energy(Entity):
             del entities[entities.index(self)]
 
         
+class Enemy(Entity):
+    def __init__(self, x,y):
+        super().__init__(x,y,16,16)
+    def update(self,_,__,___,entities):
+        boxes = []
+        ents = []
+        for k in entities:
+            if self.rect.colliderect(k.rect) and k != self and type(k) == Bullet:
+                boxes.append(k.rect)
+                ents.append(k)
+        # if collision then adjust coords and ricochet
+        rcti = self.rect.collidelist(boxes)
+        if rcti != -1:
+            del entities[entities.index(self)]
