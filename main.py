@@ -25,7 +25,12 @@ def main(winstyle = 0):
     clock = pygame.time.Clock()
     pygame.display.flip()
     lst = []
-    lst.append(Entities.Wall())
+    #lst.append(Entities.Wall(x=0, y=0,))
+    lst.append(Entities.Wall(x=0, y=64))
+    lst.append(Entities.Wall(x=0, y=128))
+    lst.append(Entities.Wall(x=64, y=128))
+
+
     lst.append(Entities.Player(60.0,60.0,32,32))
 
     #lst.append(Entities.Wall(100,100))
@@ -39,6 +44,7 @@ def main(winstyle = 0):
         s += str(i)
     tb = Entities.TextBox(s)
 
+    wall_manager = Entities.Wall_Manager(lst)    
     wrld = world.World(lst,tb, screen)
 
     display = pygame.display

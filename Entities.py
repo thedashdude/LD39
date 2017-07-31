@@ -7,10 +7,10 @@ import os
 
 from main import FRAME_RATE
 
-DEAFAULT_TEXTURE_LOC = "textures/Player"
+DEAFAULT_TEXTURE_LOC = "textures/default"
 
 class Entity():
-    def __init__(self, x=0, y=0, width = 32, height = 32, texture_loc = DEAFAULT_TEXTURE_LOC, fps = 15):
+    def __init__(self, x=0, y=0, width = 32, height = 32, texture_loc = DEAFAULT_TEXTURE_LOC, fps = 15, load_texture = True):
         self.fps = fps
         self.update_freq = FRAME_RATE // self.fps
 
@@ -24,14 +24,16 @@ class Entity():
 
         self.texture_cycle = None
         self.current_texture = None
+        self.texture_loc = texture_loc
 
-        self.load_textures(texture_loc)
+        if load_texture:
+            self.load_textures()
 
-        self.current_texture = next(self.texture_cycle)
+            self.current_texture = next(self.texture_cycle)
 
-    def load_textures(self, path):
+    def load_textures(self):
         textures = list()
-        for entry in os.scandir(path):
+        for entry in os.scandir(self.texture_loc):
             if entry.is_file():
                 texture = pygame.image.load(entry.path)
                 scaled_texture = pygame.transform.smoothscale(texture, (self.rect.width, self.rect.height))
@@ -156,9 +158,21 @@ class Player(Entity):
 
 
 class Wall_Manager():
-    def __init__(self):
-        self.wall_sections = list() #a list of list(class Wall) it keeps tracks of all of  the groups of walls
+    def __init__(self, enitity_list):
+        self.walls = list() #a list of list(class Wall) it keeps tracks of all the walls
 
+        for entity in enitity_list:
+            if type(entity) is Wall:
+                self.walls.append(entity)
+
+        self.orient_walls()
+
+        self.load_wall_textures()
+        
+    def load_wall_textures(self):
+        for wall in self.walls:
+            wall.get_texture_from_orientation()
+            wall.load_textures()
 
     def extend_wall(self, origin_wall, wall_block, orientation):
         """
@@ -190,16 +204,80 @@ class Wall_Manager():
             pass
         elif orientation == "right":
             pass
-        
-wall_manager = Wall_Manager()        
+
+    def orient_walls(self):
+        for wall in self.walls:
+            self.orient_wall(wall)
+
+    def orient_wall(self, wall):
+        wall.connected_sides = list()
+        for test_wall in self.walls:
+            flushed_sides = self.get_flushed_axis(wall, test_wall)
+            if len(flushed_sides) == 1:
+
+                wall.connected_sides.extend(flushed_sides)
+                wall.connected_walls.append(wall)
+
+
+
+    def get_flushed_axis(self, reference_wall, test_wall):
+        touch_sides = list()
+        if reference_wall.rect.bottom == test_wall.rect.top:
+            touch_sides.append("bottom")
+
+        if reference_wall.rect.top == test_wall.rect.bottom:
+            touch_sides.append("top")
+
+        if reference_wall.rect.left == test_wall.rect.right:
+            touch_sides.append("left")
+
+        if reference_wall.rect.right == test_wall.rect.left:
+            touch_sides.append("right")
+
+        # if "left" in touch_sides and "right" in touch_sides:
+        #     if "top" in touch_sides:
+        #         return "top"
+        #     elif "bottom" in touch_sides:
+        #         return "bottom"
+
+        # elif "top" in touch_sides and "bottom" in touch_sides:
+        #     if "left" in touch_sides:
+        #         return "left"
+        #     elif "right" in touch_sides:
+        #         return "right"
+        return touch_sides  
 
 class Wall(Entity):
-    def __init__(self, x=0, y=0,w=256,h=256):
-        super().__init__(x,y,w,h, texture_loc= "./textures/Player")
-        self.orientation = None
+    def __init__(self, x=0, y=0,w=64,h=64):
+        super().__init__(x,y,w,h,load_texture = False)
+        self.connected_sides = list()
+        self.connected_walls = list()
+
+    def get_texture_from_orientation(self):
+        for entry in os.scandir("textures/Walls"):
+            if entry.is_dir():
+                file_hints = entry.path.split("_") 
+                if len(self.connected_sides) == 1 and self.connected_sides[0] in file_hints and not "corner" in file_hints:
+                    self.texture_loc = entry.path
+                elif len(self.connected_sides) == 2 and all( [side in file_hints for side in self.connected_sides]):
+                    self.texture_loc = entry.path
+                else:
+                    pass
+
+                # if :
+                #     if "corner" in entry.path.split("_"):
+                #         if len(self.connected_sides) > 1:
+                            
+
+                #     else:
+                #        self.texture_loc = entry.path 
+        print(self.connected_sides)
+        print(self.texture_loc)
+
 
     def update(self, keystate, mouse_position, mouse_press, entites):
         pass
+
 
 class TextBox():
     def __init__(self, dia):
@@ -314,7 +392,7 @@ class Bullet(Entity):
 
 class Energy(Entity):
     def __init__(self, x,y):
-        super().__init__(x,y,8,8,texture_loc= "./textures/Battery")
+        super().__init__(x,y,8,8,texture_loc= "textures/Battery")
         self.energyBoost = 2500
     def update(self,_,__,___,entities):
         boxes = []
