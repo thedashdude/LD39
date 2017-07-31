@@ -1,15 +1,14 @@
 import numpy as np
 import pygame
 from pygame.locals import *
-
 from itertools import cycle
 import os
-
 from main import FRAME_RATE
 
 DEAFAULT_TEXTURE_LOC = "textures/Player"
 
 class Entity():
+
     def __init__(self, x=0, y=0, width = 32, height = 32, texture_loc = DEAFAULT_TEXTURE_LOC, fps = 15):
         self.fps = fps
         self.update_freq = FRAME_RATE // self.fps
@@ -36,11 +35,9 @@ class Entity():
                 texture = pygame.image.load(entry.path)
                 scaled_texture = pygame.transform.smoothscale(texture, (self.rect.width, self.rect.height))
                 textures.append(scaled_texture)
-
-
-
         self.texture_cycle = cycle(textures)
 
+        #check if walls running in this
     def get_next_texture(self):
         current_frame = next(self.frame_count)
         if current_frame == 0:
@@ -60,9 +57,6 @@ class Entity():
     def move(self,entities,Type):
         # entities: list of entities
         # Type: the type to check collisions 
-
-        
-
         self.rect.move_ip(self.speed_x, 0)
         boxes = []
         ents = []
@@ -70,8 +64,6 @@ class Entity():
             if self.rect.colliderect(k.rect) and k != self and type(k) == Type:
                 boxes.append(k.rect)
                 ents.append(k)
-
-        
 
         rcti = self.rect.collidelist(boxes)
         if rcti != -1:
@@ -129,17 +121,23 @@ class Test(Entity):
 
 
 class Player(Entity):
-    def __init__(self, x=0, y=0,width=320,height=320):
-        super().__init__(x=x, y=y, width=width, height=height, texture_loc= "./textures/Player")
+    def __init__(self, x=0, y=0,width=16,height=16):
+        super().__init__(x=x, y=y, width=32, height=32, texture_loc= "./textures/Player")
+        self.rect.width = width
+        self.rect.height=height
         self.speed = 1
         self.energy = 5000
         self.clicked = False
+        self.moved = False
 
     def update(self, keystate, mouse_position, mouse_press, entities):
         self.speed_x = ( (keystate[K_RIGHT] or keystate[K_d]) - (keystate[K_LEFT]  or keystate[K_a])) * self.speed
         self.speed_y = ( (keystate[K_DOWN] or keystate[K_s]) - (keystate[K_UP] or keystate[K_w]) ) * self.speed
         self.energy -= np.abs(self.speed_x)
         self.energy -= np.abs(self.speed_y)
+        self.moved = False
+        if np.abs(self.speed_y) + np.abs(self.speed_x) > 0:
+            self.moved = True
 
         self.move(entities,Wall)
 
@@ -152,7 +150,13 @@ class Player(Entity):
             self.clicked = True
         elif not mouse_press[0]:
             self.clicked = False
-    
+    def draw(self, screen):
+        #scaled_texture = pygame.transform.smoothscale(self.get_next_texture(), (self.rect.width, self.rect.height))
+        if self.moved:
+            screen.blit(self.get_next_texture(), (self.rect.x - 9,self.rect.y-10)   )
+        else:
+            screen.blit(self.current_texture, (self.rect.x - 9,self.rect.y-10)   )
+
 
 
 class Wall_Manager():
@@ -194,8 +198,8 @@ class Wall_Manager():
 wall_manager = Wall_Manager()        
 
 class Wall(Entity):
-    def __init__(self, x=0, y=0,w=256,h=256):
-        super().__init__(x,y,w,h, texture_loc= "./textures/Player")
+    def __init__(self, x=0, y=0,w=16,h=16):
+        super().__init__(x,y,w,h, texture_loc= "./textures/Wall")
         self.orientation = None
 
     def update(self, keystate, mouse_position, mouse_press, entites):
@@ -272,12 +276,16 @@ class Bullet(Entity):
             rct = boxes[rcti]
             if self.speed_x > 0:
                 self.speed_x *= -1
+                if self.go_to_goal == False and self in entities:
+                    del entities[entities.index(self)]
                 self.go_to_goal = False
                 lft = rct.left
                 self.rect.right = lft
                 self.actual_fucking_location[0] = self.rect.x
             else:
                 self.speed_x *= -1
+                if self.go_to_goal == False and self in entities:
+                    del entities[entities.index(self)]
                 self.go_to_goal = False
                 rgt = rct.right
                 self.rect.left = rgt
@@ -299,12 +307,16 @@ class Bullet(Entity):
             rct = boxes[rcti]
             if self.speed_y > 0:
                 self.speed_y *= -1
+                if self.go_to_goal == False and self in entities:
+                    del entities[entities.index(self)]
                 self.go_to_goal = False
                 top = rct.top
                 self.rect.bottom = top
                 self.actual_fucking_location[1] = self.rect.y
             else:
                 self.speed_y *= -1
+                if self.go_to_goal == False and self in entities:
+                    del entities[entities.index(self)]
                 self.go_to_goal = False
                 bot = rct.bottom
                 self.rect.top = bot
