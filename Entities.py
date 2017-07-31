@@ -261,8 +261,8 @@ class Wall(Entity):
                     self.texture_loc = entry.path
                 elif len(self.connected_sides) == 2 and all( [side in file_hints for side in self.connected_sides]):
                     self.texture_loc = entry.path
-                else:
-                    pass
+                elif len(self.connected_sides) == 0:
+                    self.texture_loc = "textures/Walls/wall_top_bottom"
 
                 # if :
                 #     if "corner" in entry.path.split("_"):
